@@ -4,7 +4,7 @@ services:
   frontend:
     image: fabreguesm/flexxus-order-frontend:latest
     ports: 
-      - "8080:80"
+      - "7001:80"
     networks:
       - traefik
     deploy:      
@@ -30,7 +30,7 @@ services:
   storybook:
     image: fabreguesm/flexxus-order-storybook:latest
     ports:
-      - "8081:80"
+      - "7002:80"
     restart: unless-stopped  
     networks:
       - traefik
