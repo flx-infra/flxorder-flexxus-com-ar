@@ -1,10 +1,10 @@
 version: '3.6'
 
 services: 
-  flexxuserpweb:
-    image: fabreguesm/orderweb:latest
+  frontend:
+    image: fabreguesm/flexxus-order-frontend:latest
     ports: 
-      - "5001:80"
+      - "8080:80"
     networks:
       - traefik
     deploy:      
@@ -21,12 +21,37 @@ services:
         - "traefik.http.routers.${SERVICE_NAME}-https.tls.certresolver=myresolver"
         - "traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=80"     
     environment:
-      - MAIL_TO_ERROR=errores.flexxus@gmail.com
-      - URL_MAP_SERVICE=http://10.150.4.12:15310
+      - VITE_GATEWAY_SECRET_KEY=p@55w0rdu1tr@s3cr3t0
+    restart: unless-stopped 
     logging:
       driver: loki
       options:
         loki-url: ${LOKI_URL}  
+  storybook:
+    image: fabreguesm/flexxus-order-storybook:latest
+    ports:
+      - "8081:80"
+    restart: unless-stopped  
+    networks:
+      - traefik
+    deploy:      
+      placement:
+        constraints: ["${NODE}"]      
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.${SERVICE_NAME}.entrypoints=web"
+        - "traefik.http.routers.${SERVICE_NAME}.rule=Host(`${DOMAIN_NAME}`)"
+        - "traefik.http.middlewares.${SERVICE_NAME}-http.redirectscheme.scheme=https"
+        - "traefik.http.routers.${SERVICE_NAME}-https.rule=Host(`${DOMAIN_NAME}`)"
+        - "traefik.http.routers.${SERVICE_NAME}-https.entrypoints=https"
+        - "traefik.http.routers.${SERVICE_NAME}-https.tls=true"
+        - "traefik.http.routers.${SERVICE_NAME}-https.tls.certresolver=myresolver"
+        - "traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=80"
+    logging:
+      driver: loki
+      options:
+        loki-url: ${LOKI_URL}  
+
 networks:
   traefik:
     external:
