@@ -2,7 +2,7 @@ version: '3.6'
 
 services: 
   backend:
-    image: fabreguesm/flexxus-order-backend:b982309
+    image: fabreguesm/flexxus-order-backend:latest
     hostname: flxorder-flexxus-com-ar
     ports: 
       - "7000:5000"
@@ -28,7 +28,7 @@ services:
         loki-url: ${LOKI_URL}  
 
   frontend:
-    image: fabreguesm/flexxus-order-frontend:b982309
+    image: fabreguesm/flexxus-order-frontend:latest
     ports: 
       - "7001:80"
     networks:
@@ -55,7 +55,7 @@ services:
         loki-url: ${LOKI_URL}  
 
   storybook:
-    image: fabreguesm/flexxus-order-storybook:b982309
+    image: fabreguesm/flexxus-order-storybook:latest
     ports:
       - "7002:80"
     restart: unless-stopped  
