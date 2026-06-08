@@ -89,7 +89,8 @@ services:
     restart: unless-stopped
     deploy:
       placement:
-        constraints: ["${NODE}"]
+        constraints:
+          - node.role == manager
     logging:
       driver: loki
       options:
