@@ -86,6 +86,7 @@ services:
     environment:
       - SLEEP_TIME=30s
       - IMAGE_AUTOCLEAN_LIMIT=5
+      - FILTER_SERVICES=name=flxorder-flexxus-com-ar
     restart: unless-stopped
     deploy:
       placement:
