@@ -4,8 +4,6 @@ services:
   backend:
     image: fabreguesm/flexxus-order-backend:latest
     hostname: flxorder-flexxus-com-ar
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
     ports: 
       - "7000:5000"
     networks:
@@ -31,8 +29,6 @@ services:
 
   frontend:
     image: fabreguesm/flexxus-order-frontend:latest
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
     ports: 
       - "7001:80"
     networks:
@@ -60,8 +56,6 @@ services:
 
   storybook:
     image: fabreguesm/flexxus-order-storybook:latest
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
     ports:
       - "7002:80"
     restart: unless-stopped  
@@ -85,14 +79,14 @@ services:
       options:
         loki-url: ${LOKI_URL}
 
-  watchtower:
-    image: containrrr/watchtower:latest
+  shepherd:
+    image: mazzolino/shepherd
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --label-enable --cleanup --interval 30
+    environment:
+      - SLEEP_TIME=30s
+      - IMAGE_AUTOCLEAN_LIMIT=5
     restart: unless-stopped
-    networks:
-      - traefik
     deploy:
       placement:
         constraints: ["${NODE}"]
