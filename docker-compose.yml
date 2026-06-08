@@ -95,8 +95,7 @@ services:
       - traefik
     deploy:
       placement:
-        constraints:
-          - node.role == manager
+        constraints: ["${NODE}"]
     logging:
       driver: loki
       options:
