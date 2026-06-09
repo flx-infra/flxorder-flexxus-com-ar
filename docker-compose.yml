@@ -47,7 +47,7 @@ services:
         - "traefik.http.routers.${SERVICE_NAME}-https.tls.certresolver=myresolver"
         - "traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=80"     
     environment:
-      - VITE_GATEWAY_SECRET_KEY=p@55w0rdu1tr@s3cr3t0
+      - VITE_GATEWAY_SECRET_KEY=${VITE_GATEWAY_SECRET_KEY}
     restart: unless-stopped 
     logging:
       driver: loki
@@ -87,6 +87,8 @@ services:
       - SLEEP_TIME=30s
       - IMAGE_AUTOCLEAN_LIMIT=5
       - FILTER_SERVICES=name=flxorder-flexxus-com-ar
+      - REGISTRY_USER=${DOCKERHUB_USERNAME}
+      - REGISTRY_PASSWORD=${DOCKERHUB_PASSWORD}
     restart: unless-stopped
     deploy:
       placement:
