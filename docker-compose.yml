@@ -59,25 +59,25 @@ services:
       options:
         loki-url: ${LOKI_URL}
 
-  shepherd:
-    image: mazzolino/shepherd
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - SLEEP_TIME=30s
-      - IMAGE_AUTOCLEAN_LIMIT=5
-      - FILTER_SERVICES=name=flxorder-flexxus-com-ar
-      - REGISTRY_USER=${DOCKERHUB_USERNAME}
-      - REGISTRY_PASSWORD=${DOCKERHUB_PASSWORD}
-    restart: unless-stopped
-    deploy:
-      placement:
-        constraints:
-          - node.role == manager
-    logging:
-      driver: loki
-      options:
-        loki-url: ${LOKI_URL}
+ # shepherd:
+ #   image: mazzolino/shepherd
+ #   volumes:
+ #     - /var/run/docker.sock:/var/run/docker.sock
+ #   environment:
+ #     - SLEEP_TIME=30s
+ #     - IMAGE_AUTOCLEAN_LIMIT=5
+ #     - FILTER_SERVICES=name=flxorder-flexxus-com-ar
+ #     - REGISTRY_USER=${DOCKERHUB_USERNAME}
+ #     - REGISTRY_PASSWORD=${DOCKERHUB_PASSWORD}
+ #   restart: unless-stopped
+ #   deploy:
+ #     placement:
+ #       constraints:
+ #         - node.role == manager
+ #   logging:
+ #     driver: loki
+ #     options:
+ #       loki-url: ${LOKI_URL}
 
 
 volumes:
